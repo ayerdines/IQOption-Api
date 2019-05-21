@@ -2,29 +2,11 @@
 
 # IQOption Api
 
-
-A Simple websocket API for IQ Option.
-
-
-
-* Version: 0.3a
-* Python: 2, 3
-* Website: https://github.com/harwee/IQOption-Api
-* Author: Sri Harsha Gangisetty
-
-## IMPORTANT
-Please use the code from `async` branch master branch will be updated onceall the basic functionality is completly rewritten in async branch.
-
-### Next Addition
-* Ability to place Put, Sell Digital Options
-
-## Basic Usage
-
-### Initialisation
+### Initialization
         from iqoption_api import IQOption
         api = IQOption("mail@email.com","password")
         api.login() # Returns True if successful else False
-        api.start_socket_connection()
+        api.initialize_instruments()
 
 ### Check Account Type
 
@@ -70,18 +52,23 @@ Please use the code from `async` branch master branch will be updated onceall th
 
 ### Place a Binary Position
         api.open_position(direction="put",
-                        expiration_time=api.binary_expiration_list["EURUSD"][-1]["time"],
-                        market_name="EURUSD",
-                        price=5,
-                        type="turbo"
-                        )
+                          expiration_time=api.binary_expiration_list["EURUSD"][-1]["time"],
+                          market_name="EURUSD",
+                          price=5,
+                          type="turbo"
+                          )
         
 
 ### Update Candle Data
 
         # api.update_candle_data(market_name,interval,start_time,end_time)
-        api.update_candle_data("EURUSD",1,0,int(time.time())) ## get latest 1000 candles with 1 second interval
+        api.update_candle_data("EURUSD", 10, 0, int(time.time())) ## get latest 1000 candles with 10 second interval
+        
+        There are only fixed allowed values of interval, some are 5,10,15,60,120,900,3600
 
 ### Access CandleData
-        # api.candle_data[market_name][interval] # list of lists  [time,open,close,high,low]
-        print(api.candle_data["EURUSD][1]) # prints candles 
+        # api.candle_data[market_name] # list of lists  [time,open,close,high,low]
+        print(api.candle_data["EURUSD]) # prints candles 
+
+
+Modified from [https://github.com/harwee/IQOption-Api](https://github.com/harwee/IQOption-Api)
